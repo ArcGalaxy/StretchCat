@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var settings = SettingsManager()
     @StateObject private var timerManager: TimerManager
+    @StateObject private var focusModeManager = FocusModeManager()
+    @StateObject private var autoStartSettings = AutoStartSettings()
     @State private var showingSettings = false
     private let breakWindowController = BreakWindowController()
     
@@ -24,10 +26,21 @@ struct ContentView: View {
             HStack {
                 Image(systemName: "cat.fill")
                     .font(.system(size: 32))
-                Text("StretchCat")
+                Text("伸展猫")
                     .font(.system(size: 32, weight: .bold))
             }
             .foregroundColor(.blue)
+            
+            // 自动启动状态提示
+            if autoStartSettings.autoStartMode != .manual {
+                HStack(spacing: 5) {
+                    Image(systemName: "clock.badge.checkmark")
+                        .foregroundColor(.green)
+                    Text("自动模式: \(autoStartSettings.autoStartMode.description)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
             
             // 状态显示
             VStack(spacing: 10) {
@@ -93,17 +106,33 @@ struct ContentView: View {
         .padding(40)
         .frame(minWidth: 400, minHeight: 450)
         .sheet(isPresented: $showingSettings) {
-            SettingsView(settings: settings, timerManager: timerManager)
+            SettingsView(
+                settings: settings,
+                timerManager: timerManager,
+                focusModeManager: focusModeManager,
+                autoStartSettings: autoStartSettings
+            )
         }
         .onAppear {
             timerManager.onBreakTimeStart = {
                 breakWindowController.show(timerManager: timerManager)
             }
+            checkAutoStart()
         }
         .onChange(of: timerManager.state) { newState in
             if newState == .idle {
                 breakWindowController.hide()
             }
+        }
+    }
+    
+    private func checkAutoStart() {
+        // 检查是否应该自动启动
+        if autoStartSettings.shouldAutoStart(
+            currentTime: Date(),
+            focusMode: focusModeManager.currentFocusMode
+        ) && timerManager.state == .idle {
+            timerManager.start()
         }
     }
     

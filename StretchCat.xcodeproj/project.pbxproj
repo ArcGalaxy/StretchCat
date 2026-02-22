@@ -16,6 +16,8 @@
 		6D459BB82F4A855600193123 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D459BB42F4A855600193123 /* SettingsManager.swift */; };
 		6D459BB92F4A855600193123 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D459BB52F4A855600193123 /* TimerManager.swift */; };
 		6D459BBB2F4A85C600193123 /* BreakWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D459BBA2F4A85C600193123 /* BreakWindowController.swift */; };
+		6D459BBE2F4A8BDC00193123 /* AutoStartSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D459BBC2F4A8BDC00193123 /* AutoStartSettings.swift */; };
+		6D459BBF2F4A8BDC00193123 /* FocusModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D459BBD2F4A8BDC00193123 /* FocusModeManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		6D459BB42F4A855600193123 /* SettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		6D459BB52F4A855600193123 /* TimerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		6D459BBA2F4A85C600193123 /* BreakWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreakWindowController.swift; sourceTree = "<group>"; };
+		6D459BBC2F4A8BDC00193123 /* AutoStartSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoStartSettings.swift; sourceTree = "<group>"; };
+		6D459BBD2F4A8BDC00193123 /* FocusModeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusModeManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,8 @@
 		6D459BA22F4A845800193123 /* StretchCat */ = {
 			isa = PBXGroup;
 			children = (
+				6D459BBC2F4A8BDC00193123 /* AutoStartSettings.swift */,
+				6D459BBD2F4A8BDC00193123 /* FocusModeManager.swift */,
 				6D459BBA2F4A85C600193123 /* BreakWindowController.swift */,
 				6D459BB22F4A855600193123 /* BreakReminderWindow.swift */,
 				6D459BB42F4A855600193123 /* SettingsManager.swift */,
@@ -156,11 +162,13 @@
 			files = (
 				6D459BBB2F4A85C600193123 /* BreakWindowController.swift in Sources */,
 				6D459BA62F4A845800193123 /* ContentView.swift in Sources */,
+				6D459BBE2F4A8BDC00193123 /* AutoStartSettings.swift in Sources */,
 				6D459BB82F4A855600193123 /* SettingsManager.swift in Sources */,
 				6D459BB72F4A855600193123 /* SettingsView.swift in Sources */,
 				6D459BB92F4A855600193123 /* TimerManager.swift in Sources */,
 				6D459BA42F4A845800193123 /* StretchCatApp.swift in Sources */,
 				6D459BB62F4A855600193123 /* BreakReminderWindow.swift in Sources */,
+				6D459BBF2F4A8BDC00193123 /* FocusModeManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
