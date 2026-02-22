@@ -392,12 +392,7 @@ class FocusModeManager: ObservableObject {
         
         print("❌ 未检测到激活的专注模式")
         isDoNotDisturbActive = false
-        
-        if let manualMode = UserDefaults.standard.string(forKey: "manualCurrentFocusMode") {
-            currentFocusMode = manualMode
-        } else {
-            currentFocusMode = nil
-        }
+        currentFocusMode = nil
     }
     
     private func extractModeName(from identifier: String) -> String {
@@ -439,11 +434,6 @@ class FocusModeManager: ObservableObject {
     
     func setCurrentFocusMode(_ modeName: String?) {
         currentFocusMode = modeName
-        if let mode = modeName {
-            UserDefaults.standard.set(mode, forKey: "manualCurrentFocusMode")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "manualCurrentFocusMode")
-        }
     }
     
     func isFocusModeActive(_ modeName: String) -> Bool {

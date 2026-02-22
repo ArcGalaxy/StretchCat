@@ -95,7 +95,7 @@ class AutoStartSettings: ObservableObject {
         }
     }
     
-    private func isWithinTimeRange(_ currentTime: Date) -> Bool {
+    func isWithinTimeRange(_ currentTime: Date) -> Bool {
         let calendar = Calendar.current
         let currentComponents = calendar.dateComponents([.hour, .minute], from: currentTime)
         let startComponents = calendar.dateComponents([.hour, .minute], from: startTime)
