@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BreakReminderView: View {
     @ObservedObject var timerManager: TimerManager
+    var onSkip: () -> Void
     
     var body: some View {
         ZStack {
@@ -56,6 +57,18 @@ struct BreakReminderView: View {
                     .foregroundColor(.white.opacity(0.9))
                 }
                 .padding(.top, 30)
+                
+                Button(action: onSkip) {
+                    Text("跳过休息")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(.white.opacity(0.6))
+                        .padding(.horizontal, 30)
+                        .padding(.vertical, 12)
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(8)
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 40)
             }
         }
     }

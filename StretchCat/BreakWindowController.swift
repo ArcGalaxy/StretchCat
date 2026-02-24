@@ -12,7 +12,11 @@ class BreakWindowController {
     private var window: NSWindow?
     
     func show(timerManager: TimerManager) {
-        let contentView = BreakReminderView(timerManager: timerManager)
+        let contentView = BreakReminderView(timerManager: timerManager) { [weak self] in
+            // 跳过休息
+            timerManager.skipBreak()
+            self?.hide()
+        }
         
         let hostingController = NSHostingController(rootView: contentView)
         

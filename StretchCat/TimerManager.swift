@@ -23,6 +23,7 @@ class TimerManager: ObservableObject {
     private var timer: Timer?
     private var workDuration: Int
     private var breakDuration: Int
+    private var wasRunningBeforeLock: Bool = false
     
     var onBreakTimeStart: (() -> Void)?
     
@@ -31,6 +32,52 @@ class TimerManager: ObservableObject {
         self.breakDuration = breakMinutes * 60
         self.remainingSeconds = workDuration
         self.totalSeconds = workDuration
+        
+        setupScreenLockObservers()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func setupScreenLockObservers() {
+        // 监听屏幕锁定
+        DistributedNotificationCenter.default().addObserver(
+            self,
+            selector: #selector(screenDidLock),
+            name: NSNotification.Name("com.apple.screenIsLocked"),
+            object: nil
+        )
+        
+        // 监听屏幕解锁
+        DistributedNotificationCenter.default().addObserver(
+            self,
+            selector: #selector(screenDidUnlock),
+            name: NSNotification.Name("com.apple.screenIsUnlocked"),
+            object: nil
+        )
+    }
+    
+    @objc private func screenDidLock() {
+        print("🔒 屏幕已锁定")
+        // 如果正在运行，暂停计时
+        if state == .working || state == .breaking {
+            wasRunningBeforeLock = true
+            pause()
+            print("⏸️ 计时已暂停（锁屏）")
+        } else {
+            wasRunningBeforeLock = false
+        }
+    }
+    
+    @objc private func screenDidUnlock() {
+        print("🔓 屏幕已解锁")
+        // 如果锁屏前正在运行，恢复计时
+        if wasRunningBeforeLock {
+            start()
+            wasRunningBeforeLock = false
+            print("▶️ 计时已恢复（解锁）")
+        }
     }
     
     func updateDurations(workMinutes: Int, breakMinutes: Int) {
@@ -81,9 +128,12 @@ class TimerManager: ObservableObject {
     func skipBreak() {
         timer?.invalidate()
         timer = nil
-        state = .idle
+        // 跳过休息后，立即开始下一个工作周期
+        state = .working
         remainingSeconds = workDuration
         totalSeconds = workDuration
+        startTimer()
+        print("⏭️ 跳过休息，开始新的工作周期")
     }
     
     private func startTimer() {
@@ -103,9 +153,11 @@ class TimerManager: ObservableObject {
             if state == .working {
                 startBreak()
             } else if state == .breaking {
-                state = .idle
+                // 休息结束后，自动开始下一个工作周期
+                state = .working
                 remainingSeconds = workDuration
                 totalSeconds = workDuration
+                startTimer()
             }
         }
     }

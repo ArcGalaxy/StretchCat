@@ -37,8 +37,13 @@ class FocusModeSettings: ObservableObject {
     
     func getSettings(for mode: String?) -> ModeTimerSettings {
         guard usePerModeSettings, let mode = mode else {
-            // 返回全局默认设置
-            return ModeTimerSettings()
+            // 返回全局默认设置（从 SettingsManager 读取）
+            let workMinutes = UserDefaults.standard.integer(forKey: "workMinutes")
+            let breakMinutes = UserDefaults.standard.integer(forKey: "breakMinutes")
+            return ModeTimerSettings(
+                workMinutes: workMinutes > 0 ? workMinutes : 30,
+                breakMinutes: breakMinutes > 0 ? breakMinutes : 2
+            )
         }
         
         return modeSettings[mode] ?? ModeTimerSettings()
